@@ -23,6 +23,10 @@ def index(request):
 def taxon_detail(request):
     return HttpResponse("Hello, world. You're at the systax taxon_detail.")
 
+def taxon_add(request):
+    return HttpResponse("Hello, world. You're at the systax taxon_detail.")
+
+
 def taxon_list(request):
     user_obj = get_user_obj( request )
     taxon_list = Taxon.objects.all()

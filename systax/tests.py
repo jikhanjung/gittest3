@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from .models import Taxon
 
 class UserManagersTests(TestCase):
     def test_create_user(self):
@@ -38,6 +39,16 @@ class UserManagersTests(TestCase):
         with self.assertRaises(ValueError):
             User.objects.create_superuser(email="super@user.com", password="testpass123", is_superuser=False)
     
+class TaxonTestCase(TestCase):
+    def setUp(self):
+        estaingia = Taxon.objects.create(name="Estaingia",rank="genus",author="Pocock",year="1964",remarks="test genus")
+        Taxon.objects.create(name="Estaingia bilobata",rank="species",author="Pocock",year="1964",remarks="test species",parent=estaingia)
+    def test_taxon_name(self):
+        genus = Taxon.objects.get(name="Estaingia")
+        species = Taxon.objects.get(name="Estaingia bilobata")
+        self.assertEqual(genus.name,"Estaingia")
+        self.assertEqual(species.name,"Estaingia bilobata")
+        self.assertEqual(species.parent.name,"Estaingia")
 
 
 
